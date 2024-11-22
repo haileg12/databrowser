@@ -1,0 +1,55 @@
+body {
+    background-image: url(images/webpage_images/waves.jpg);
+}
+fieldset {
+    border-color: #654321;
+    border-width: 10px;
+    background-image: url(images/webpage_images/wood.jpg);
+    color: white;
+    margin: auto;
+    margin-top: 30px;
+    max-width: 580px;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0px;
+}
+.form-fields {
+    flex: 1;
+}
+.image-display {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: -50px; /* Moves the image container slightly up */
+}
+img {
+    margin-top: 0; /* Removes extra spacing above the image */
+    max-width: 250px;
+    height: 225px;
+    object-fit: contain;
+}
+h2 {
+    text-align: center;
+    margin-top: 0;
+}
+hr {
+    border-color: #63b2e4;
+}
+button {
+    background-color: #63b2e4;
+    border-color: #2d93d2;
+    color: white;
+}
+label {
+    margin-left: 25px;
+}
+.center {
+    text-align: center;
+}
+.spacing {
+    margin-left: 25px;
+}

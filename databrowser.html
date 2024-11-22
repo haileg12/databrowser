@@ -2,60 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8" />
+	<link rel="stylesheet" href="style.css">
     <title>Data Browser</title>
-	<style>
-		body {
-			background-image: url(images/webpage_images/waves.jpg);
-		}
-		fieldset {
-			border-color: #654321;
-			border-width: 10px;
-			background-image: url(images/webpage_images/wood.jpg);
-			color: white;
-			margin: auto;
-			margin-top: 20px;
-			max-width: 580px;
-		}
-		.container {
-			display: flex;
-			justify-content: space-between;
-			align-items: flex-start;
-			gap: 0px;
-		}
-		.form-fields {
-			flex: 1;
-		}
-		.image-display {
-			flex: 1;
-			display: flex;
-			justify-content: center;
-			align-items: flex-start;
-			margin-top: -50px; /* Moves the image container slightly up */
-		}
-		img {
-			margin-top: 0; /* Removes extra spacing above the image */
-			max-width: 250px;
-			height: 225px;
-			object-fit: contain;
-		}
-		h2 {
-			text-align: center;
-			margin-top: 0;
-		}
-		label {
-			margin-left: 25px;
-		}
-		.center {
-			text-align: center;
-		}
-		.spacing {
-			margin-left: 25px;
-		}
-	</style>
 </head>
 <body>
     <fieldset>
-		<h2><span class="center">One Piece Data Browser</span></h2>
+		<h2><span class="center">⚔️🧭🗺️⚓🏴‍☠One Piece Data Browser🏴‍☠⚔️🧭🗺️⚓</span></h2>
 		<br>
 		<label for="loadButton" style="font-weight: bold">Click Here First! →</label>
 		<button id="loadButton" onclick="makeRequest()">Load Data</button><br><br>
@@ -86,12 +38,13 @@
         </div>
 
 		<br></br>
-		
+		<hr>
 		<div class="center">
 			<button onclick="showFirst()">|←</button>
 			<button onclick="showPrevious()">←</button>
 			<button onclick="showNext()">→</button>
-			<button onclick="showLast()">→|</button><br><br>
+			<button onclick="showLast()">→|</button>
+			<br>
 			<div id="itemCountDisplay">(0/0)</div>
 		</div>
 		
@@ -115,8 +68,9 @@
     			<input type="text" id="newImage"><br><br>
     			<button onclick="addNewItem()">Save New Item</button>
 			</div>
-
 		</div>
+		<br><br>
+		<h2><span class="center">🏴‍☠⚔️🧭🗺️⚓🏴‍☠⚔️🧭🗺️⚓🏴‍☠⚔️🧭🗺️⚓🏴‍☠⚔️</span></h2>
 	</fieldset>
 
     <script>
@@ -157,6 +111,12 @@
 		document.getElementById('gender').value = obj.gender;
 		document.getElementById('height').value = obj.height;
 		displayImage(obj); // Display the associated image
+
+		// Disable the form fields
+		document.getElementById('name').disabled = true;
+    	document.getElementById('age').disabled = true;
+    	document.getElementById('gender').disabled = true;
+    	document.getElementById('height').disabled = true;
 	}
 
 	/////////////////////////////////////////////////////////////////
