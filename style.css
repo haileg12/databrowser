@@ -24,7 +24,8 @@ fieldset {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    margin-top: -50px; /* Moves the image container slightly up */
+    margin-top: 0px; /* Moves the image container slightly up */
+    
 }
 img {
     margin-top: 0; /* Removes extra spacing above the image */
@@ -43,6 +44,10 @@ button {
     background-color: #63b2e4;
     border-color: #2d93d2;
     color: white;
+    cursor: pointer;
+}
+.button button:hover {
+    background-color: #2d93d2;
 }
 label {
     margin-left: 25px;
@@ -52,4 +57,21 @@ label {
 }
 .spacing {
     margin-left: 25px;
+}
+.data-table th, .data-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.data-table th {
+    background-color: #63b2e4;
+    color: white;
+}
+.database-view {
+    margin: auto;
+    width: 512px;
+    padding: 20px;
+    background-color: #3e2914;
+    border-radius: 5px;
+    text-align: center;
 }

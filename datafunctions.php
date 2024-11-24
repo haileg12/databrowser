@@ -1,49 +1,170 @@
 <?php
-// Load JSON data
-$jsonData = file_get_contents('opdata.json');
-$items = json_decode($jsonData, true);
+// Database connection
+function getConnection() {
+    $servername = "localhost";
+    $username = "Haile";
+    $password = "haile";
+    $dbname = "projectdatabrowser";
 
-// Check if editing an item
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+        die(json_encode(["status" => "error", "message" => "Connection failed: " . $conn->connect_error]));
+    }
+    return $conn;
+}
+
+// Load data (used for initial display and after sorting)
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $conn = getConnection();
+    $sort = isset($_GET['sort']) ? $_GET['sort'] : 'default';
+    
+    $query = "SELECT * FROM onepiece";
+    switch($sort) {
+        case 'name':
+            $query .= " ORDER BY name ASC";
+            break;
+        case 'default':
+        default:
+            $query .= " ORDER BY id ASC";
+            break;
+    }
+    
+    $result = $conn->query($query);
+    $items = [];
+    
+    while($row = $result->fetch_assoc()) {
+        $items[] = [
+            "id" => $row['id'],
+            "name" => $row['name'],
+            "age" => $row['age'],
+            "gender" => $row['gender'],
+            "height" => $row['height'],
+            "img" => $row['img']
+        ];
+    }
+    
+    echo json_encode($items);
+    $conn->close();
+    exit;
+}
+
+// Update existing character
 if (isset($_POST['id']) && isset($_POST['newData'])) {
+    $conn = getConnection();
     $id = (int) $_POST['id'];
     $newData = json_decode($_POST['newData'], true);
-
-    // Update the specific item in the array
-    if (isset($items[$id])) {
-        $items[$id] = $newData;
-        file_put_contents('opdata.json', json_encode($items));
-        echo json_encode(["status" => "success", "message" => "Data updated successfully"]);
+    
+    $stmt = $conn->prepare("UPDATE onepiece SET name=?, age=?, gender=?, height=?, img=? WHERE id=?");
+    $stmt->bind_param("sssssi", 
+        $newData['name'],
+        $newData['age'],
+        $newData['gender'],
+        $newData['height'],
+        $newData['img'],
+        $id
+    );
+    
+    if ($stmt->execute()) {
+        // Fetch the updated record to return
+        $result = $conn->query("SELECT * FROM onepiece WHERE id=$id");
+        $updatedData = $result->fetch_assoc();
+        echo json_encode([
+            "status" => "success", 
+            "message" => "Data updated successfully",
+            "data" => $updatedData
+        ]);
     } else {
-        echo json_encode(["status" => "error", "message" => "Item not found"]);
+        echo json_encode(["status" => "error", "message" => "Update failed: " . $conn->error]);
     }
+    
+    $stmt->close();
+    $conn->close();
     exit;
 }
 
-// Check if deleting an item
+// Delete character
 if (isset($_POST['id']) && !isset($_POST['newData'])) {
+    $conn = getConnection();
     $id = (int) $_POST['id'];
-
-    if (isset($items[$id])) {
-        unset($items[$id]);
-        $items = array_values($items); // Re-index array
-        file_put_contents('opdata.json', json_encode($items));
+    
+    $stmt = $conn->prepare("DELETE FROM onepiece WHERE id=?");
+    $stmt->bind_param("i", $id);
+    
+    if ($stmt->execute()) {
+        // After deletion, reorder the remaining records if needed
+        $conn->query("SET @count = 0");
+        $conn->query("UPDATE onepiece SET id = @count:= @count + 1 ORDER BY id");
+        $conn->query("ALTER TABLE onepiece AUTO_INCREMENT = 1");
+        
         echo json_encode(["status" => "success", "message" => "Data deleted successfully"]);
     } else {
-        echo json_encode(["status" => "error", "message" => "Item not found"]);
+        echo json_encode(["status" => "error", "message" => "Delete failed: " . $conn->error]);
     }
+    
+    $stmt->close();
+    $conn->close();
     exit;
 }
 
-// Check if inserting a new item
+// Add new character
 if (isset($_POST['newItem'])) {
+    $conn = getConnection();
     $newItem = json_decode($_POST['newItem'], true);
-
-    $items[] = $newItem;
-    file_put_contents('opdata.json', json_encode($items));
-    echo json_encode(["status" => "success", "message" => "New item added successfully"]);
+    
+    $stmt = $conn->prepare("INSERT INTO onepiece (name, age, gender, height, img) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", 
+        $newItem['name'],
+        $newItem['age'],
+        $newItem['gender'],
+        $newItem['height'],
+        $newItem['img']
+    );
+    
+    if ($stmt->execute()) {
+        $newId = $conn->insert_id;
+        // Fetch the newly inserted record to return
+        $result = $conn->query("SELECT * FROM onepiece WHERE id=$newId");
+        $insertedData = $result->fetch_assoc();
+        echo json_encode([
+            "status" => "success",
+            "message" => "New item added successfully",
+            "data" => $insertedData
+        ]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Insert failed: " . $conn->error]);
+    }
+    
+    $stmt->close();
+    $conn->close();
     exit;
 }
 
-// Default response if no action matches
-echo json_encode($items);
+// Search functionality (new addition)
+if (isset($_GET['search'])) {
+    $conn = getConnection();
+    $searchTerm = '%' . $_GET['search'] . '%';
+    
+    $stmt = $conn->prepare("SELECT * FROM onepiece WHERE name LIKE ? OR gender LIKE ?");
+    $stmt->bind_param("ss", $searchTerm, $searchTerm);
+    $stmt->execute();
+    
+    $result = $stmt->get_result();
+    $items = [];
+    
+    while($row = $result->fetch_assoc()) {
+        $items[] = [
+            "id" => $row['id'],
+            "name" => $row['name'],
+            "age" => $row['age'],
+            "gender" => $row['gender'],
+            "height" => $row['height'],
+            "img" => $row['img']
+        ];
+    }
+    
+    echo json_encode($items);
+    $stmt->close();
+    $conn->close();
+    exit;
+}
 ?>
