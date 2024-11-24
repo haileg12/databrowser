@@ -1,5 +1,4 @@
 <?php
-// database_setup.php
 
 // Database connection parameters
 $servername = "localhost";
