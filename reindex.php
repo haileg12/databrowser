@@ -1,5 +1,4 @@
 <?php
-// reindex.php
 function reindexDatabase() {
     $conn = new mysqli("localhost", "Haile", "haile", "projectdatabrowser");
     

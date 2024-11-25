@@ -49,6 +49,7 @@ $initialData = [
     ['Sanji', '21', 'Male', '5\'11"', 'images/sanji.jpg'],
     ['Chopper', '17', 'Male', '2\'9"', 'images/chopper.jpg'],
     ['Robin', '30', 'Female', '6\'2"', 'images/robin.jpg'],
+    ['Franky', '30', 'Male', '6\'2"', 'images/franky.jpg'],
     ['Brook', '90', 'Male', '9\'1"', 'images/brook.jpg'],
     ['Jinbe', '46', 'Male', '9\'11"', 'images/jinbe.jpg'],
     ['Garp', '78', 'Male', '9\'5"', 'images/garp.jpg'],

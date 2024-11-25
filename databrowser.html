@@ -8,12 +8,15 @@
 <body>
   <fieldset>
 	<br>
+    <!-- Title -->
     <h2 class="center">⚔️🧭🗺️⚓🏴‍☠️One Piece Data Browser🏴‍☠️⚔️🧭🗺️⚓</h2>
 
+    <!-- Load Data Button -->
     <div class="center">
         <button onclick="loadData()">Load Data</button><br><br>
     </div>
 
+    <!-- Data Display -->
     <div class="container">
         <div class="form-fields">
             <div>
@@ -34,17 +37,18 @@
             </div>
             <div>
                 <label>Straw Hat crew member?:</label>
-                <input type="checkbox" id="strawhat" disabled>
+                <input type="checkbox" id="strawhat">
             </div>
         </div>
 
-        <div id="myTable" class="image-display"></div>
+        <div id="myTable" class="image-display"></div> <!-- Image container -->
     </div>
 	
 	<br><br>
     <hr>
 	<br>
 
+    <!-- Navigation Buttons -->
     <div class="center">
         <button onclick="firstItem()">|←</button>
         <button onclick="previousItem()">←</button>
@@ -55,6 +59,7 @@
 
 	<br>
 
+    <!-- Action Buttons -->
     <div class="spacing">
         <button id="editButton" onclick="toggleEdit()">Edit</button><br><br>
         <button onclick="showAddForm()">Insert</button><br><br>
@@ -84,13 +89,26 @@
         </div>
 		<br>
         <div>
+            <!-- Image upload form -->
+            <form action="uploadfile.php" method="post" enctype="multipart/form-data">
+                <p>Select an image to upload:</p>
+                <ul>
+                    <li><input type="file" name="fileup" id="fileup" accept="image/jpeg, image/png"></li>
+                    <li><input type="submit" value="Upload Image" name="submit"></li>
+                </ul>
+            </form>
+        </div>
+        <div>
             <label>Image Path:</label>
             <input type="text" id="newImage" placeholder="ex: images/nami.jpg">
         </div>
 		<br>
-        <button onclick="saveNewItem()">Save New Item</button>
+        <button onclick="saveNewItem()">Save New Item</button> <!-- Save button -->
     </div>
 
+    <br>
+
+    <!-- Sort Buttons -->
     <div class="center">
         <button onclick="sortByDefault()">Sort by Default Order</button>
         <button onclick="sortByName()">Sort by Name</button>
@@ -98,6 +116,7 @@
 
 	<br>
 
+    <!-- Database View -->
     <div class="database-view">
         <h3>Database View</h3>
         <div id="databaseTable"></div>
@@ -107,58 +126,64 @@
     <h2 class="center">🏴‍☠️⚔️🧭🗺️⚓🏴‍☠️⚔️🧭🗺️⚓🏴‍☠️⚔️🧭🗺️⚓🏴‍☠️⚔️</h2>
   </fieldset>
     <script>
+        // Global variables
         let currentIndex = 0;
         let allData = [];
         let isEditing = false;
 
+        // Function to load data
         async function loadData(sortBy = 'default') {
             try {
-                const response = await fetch(`datafunctions.php?sort=${sortBy}`);
-                allData = await response.json();
+                const response = await fetch(`datafunctions.php?sort=${sortBy}`); // Fetch data
+                allData = await response.json(); // Parse JSON
                 
-                if (allData.length > 0) {
+                if (allData.length > 0) { // Check if data is available
                     currentIndex = 0;
-                    displayCurrentItem();
-                    updateItemCount();
-                    displayDatabaseTable();
+                    displayCurrentItem(); // Display the first item
+                    updateItemCount(); // Update the item count
+                    displayDatabaseTable(); // Display the database table
                 }
             } catch (error) {
-                console.error('Error loading data:', error);
+                console.error('Error loading data:', error); // Log error
             }
         }
 
+        // Function to display the current item
         function displayCurrentItem() {
             if (allData.length === 0) return;
             
-            const item = allData[currentIndex];
+            const item = allData[currentIndex]; // Get the current item
             document.getElementById('name').value = item.name;
-            document.getElementById('age').value = item.age;
+            document.getElementById('age').value = item.age; 
             document.getElementById('gender').value = item.gender;
             document.getElementById('height').value = item.height;
             
-            const strawHatMembers = ['Luffy', 'Zoro', 'Nami', 'Usopp', 'Sanji', 'Chopper', 'Robin', 'Brook', 'Jinbe'];
+            const strawHatMembers = ['Luffy', 'Zoro', 'Nami', 'Usopp', 'Sanji', 'Chopper', 'Robin', 'Brook', 'Jinbe', 'Franky'];
             document.getElementById('strawhat').checked = strawHatMembers.includes(item.name);
             
-            displayImage(item);
+            displayImage(item); // Display the image
         }
 
+        // Function to display the image
         function displayImage(item) {
-            const imgElement = document.createElement('img');
-            imgElement.src = item.img;
-            imgElement.alt = item.name;
+            const imgElement = document.createElement('img'); // Create an image element
+            imgElement.src = item.img; // Set the image source
+            imgElement.alt = item.name; // Set the image alt text
             
-            const container = document.getElementById('myTable');
-            container.innerHTML = '';
-            container.appendChild(imgElement);
+            const container = document.getElementById('myTable'); // Get the container
+            container.innerHTML = ''; // Clear the container
+            container.appendChild(imgElement); // Add the image to the container
         }
 
+        // Function to update the item count
         function updateItemCount() {
             document.getElementById('itemCountDisplay').textContent = 
-                `(${currentIndex + 1}/${allData.length})`;
+                `(${currentIndex + 1}/${allData.length})`; // Update the item count
         }
 
+        // Function to display the database table
         function displayDatabaseTable() {
-            const container = document.getElementById('databaseTable');
+            const container = document.getElementById('databaseTable'); 
             let html = `
                 <table class="database-table">
                     <thead>
@@ -171,7 +196,7 @@
                         </tr>
                     </thead>
                     <tbody>
-            `;
+            `; // HTML for the table
             
             allData.forEach(item => {
                 html += `
@@ -183,12 +208,13 @@
 						<td>${item.img}</td>
                     </tr>
                 `;
-            });
+            }); // Add rows to the table
             
-            html += '</tbody></table>';
-            container.innerHTML = html;
+            html += '</tbody></table>'; // Close the table
+            container.innerHTML = html; // Display the table
         }
 
+        // Function to toggle edit mode
         function toggleEdit() {
             isEditing = !isEditing;
             const fields = ['name', 'age', 'gender', 'height'];
@@ -196,7 +222,7 @@
                 document.getElementById(field).disabled = !isEditing;
             });
             
-            const editButton = document.getElementById('editButton');
+            const editButton = document.getElementById('editButton'); // Get the edit button
             if (isEditing) {
                 editButton.textContent = 'Save';
             } else {
@@ -205,6 +231,7 @@
             }
         }
 
+        // Function to save changes
         async function saveChanges() {
             const currentItem = allData[currentIndex];
             const newData = {
@@ -216,53 +243,56 @@
             };
             
             try {
-                const response = await fetch('datafunctions.php', {
+                const response = await fetch('datafunctions.php', { // Send a POST request
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `id=${currentItem.id}&newData=${JSON.stringify(newData)}`
+                    body: `id=${currentItem.id}&newData=${JSON.stringify(newData)}` // Send the ID and new data
                 });
                 
-                const result = await response.json();
-                if (result.status === 'success') {
-                    loadData();
+                const result = await response.json(); // Get the response
+                if (result.status === 'success') { // Check if the update was successful
+                    loadData(); // Reload the data
                 }
             } catch (error) {
-                console.error('Error saving changes:', error);
+                console.error('Error saving changes:', error); // Log error
             }
         }
 
+        // Function to delete the current item
         async function deleteCurrentItem() {
-            if (!confirm('Are you sure you want to delete this item?')) return;
+            if (!confirm('Are you sure you want to delete this item?')) return; // Confirm deletion
             
-            const currentItem = allData[currentIndex];
+            const currentItem = allData[currentIndex]; // Get the current item
             try {
-                const response = await fetch('datafunctions.php', {
+                const response = await fetch('datafunctions.php', { // Send a POST request
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `id=${currentItem.id}`
+                    body: `id=${currentItem.id}` // Send the ID
                 });
                 
-                const result = await response.json();
-                if (result.status === 'success') {
-                    await loadData();
-                    if (currentIndex >= allData.length) {
+                const result = await response.json(); // Get the response
+                if (result.status === 'success') { // Check if the deletion was successful
+                    await loadData(); // Reload the data
+                    if (currentIndex >= allData.length) { 
                         currentIndex = Math.max(0, allData.length - 1);
                     }
                     displayCurrentItem();
                 }
             } catch (error) {
-                console.error('Error deleting item:', error);
+                console.error('Error deleting item:', error); // Log error
             }
         }
 
+        // Function to show the add item form
         function showAddForm() {
             document.getElementById('addItemForm').style.display = 'block';
         }
 
+        // Function to save a new item
         async function saveNewItem() {
             const newItem = {
                 name: document.getElementById('newName').value,
@@ -273,25 +303,26 @@
             };
             
             try {
-                const response = await fetch('datafunctions.php', {
+                const response = await fetch('datafunctions.php', { // Send a POST request
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `newItem=${JSON.stringify(newItem)}`
+                    body: `newItem=${JSON.stringify(newItem)}` // Send the new item
                 });
                 
-                const result = await response.json();
+                const result = await response.json(); // Get the response
                 if (result.status === 'success') {
                     document.getElementById('addItemForm').style.display = 'none';
-                    clearAddForm();
-                    await loadData();
+                    clearAddForm(); // Clear the add item form
+                    await loadData(); // Reload the data
                 }
             } catch (error) {
-                console.error('Error adding new item:', error);
+                console.error('Error adding new item:', error); // Log error
             }
         }
 
+        // Function to clear the add item form
         function clearAddForm() {
             document.getElementById('newName').value = '';
             document.getElementById('newAge').value = '';
@@ -300,12 +331,14 @@
             document.getElementById('newImage').value = '';
         }
 
+        // Function to navigate to the first item
         function firstItem() {
             currentIndex = 0;
             displayCurrentItem();
             updateItemCount();
         }
 
+        // Function to navigate to the previous item
         function previousItem() {
             if (currentIndex > 0) {
                 currentIndex--;
@@ -314,6 +347,7 @@
             }
         }
 
+        // Function to navigate to the next item
         function nextItem() {
             if (currentIndex < allData.length - 1) {
                 currentIndex++;
@@ -322,19 +356,68 @@
             }
         }
 
+        // Function to navigate to the last item
         function lastItem() {
             currentIndex = allData.length - 1;
             displayCurrentItem();
             updateItemCount();
         }
 
+        // Function to sort the data
         function sortByName() {
             loadData('name');
         }
 
+        // Function to sort the data
         function sortByDefault() {
             loadData('default');
         }
+
+        // Function to handle file upload
+        function handleFileUpload(event) {
+            const fileInput = event.target;
+            const file = fileInput.files[0];
+    
+            if (file) {
+                // Get the filename
+                const fileName = file.name;
+        
+                // Create the path that matches your PHP upload directory structure
+                const filePath = 'images/' + fileName;
+        
+                // Find the newImage input field and set its value
+                document.querySelector('newImage').value = filePath;
+            }
+        }
+
+        // Function to handle form submission
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+    
+            const formData = new FormData();
+            const fileInput = document.querySelector('input[type="file"]');
+            formData.append('fileup', fileInput.files[0]);
+    
+            fetch('uploadfile.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert('File uploaded successfully!');
+            })
+            .catch(error => {
+                alert.error('Error uploading file:', error);
+            });
+        }
+
+        // Add event listeners when the document loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.querySelector('input[type="file"]'); // Get the file input
+            fileInput.addEventListener('change', handleFileUpload); // Add event listener
+            const uploadForm = document.querySelector('form'); // Get the upload form
+            uploadForm.addEventListener('submit', handleSubmit); // Add event listener
+        });
     </script>
 </body>
 </html>

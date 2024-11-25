@@ -1,6 +1,8 @@
+/* Background image */
 body {
     background-image: url(images/webpage_images/waves.jpg);
 }
+/* Fieldset style */
 fieldset {
     border-color: #654321;
     border-width: 10px;
@@ -19,6 +21,7 @@ fieldset {
 .form-fields {
     flex: 1;
 }
+/* Image style */
 .image-display {
     flex: 1;
     display: flex;
@@ -33,6 +36,7 @@ img {
     height: 225px;
     object-fit: contain;
 }
+/* Header style */
 h2 {
     text-align: center;
     margin-top: 0;
@@ -40,24 +44,25 @@ h2 {
 hr {
     border-color: #63b2e4;
 }
-button {
+/* Button style */
+button{
     background-color: #63b2e4;
     border-color: #2d93d2;
     color: white;
     cursor: pointer;
 }
-.button button:hover {
-    background-color: #2d93d2;
-}
+/* Label style */
 label {
     margin-left: 25px;
 }
+/* Text/Line Spacing */
 .center {
     text-align: center;
 }
 .spacing {
     margin-left: 25px;
 }
+/* Table style */
 .data-table th, .data-table td {
     border: 1px solid #ddd;
     padding: 8px;
