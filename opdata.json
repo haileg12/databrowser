@@ -1,1 +1,162 @@
-[{"name":"Luffy","age":"19","gender":"Male","height":"5'9\"","img":"images\/luffy.jpg"},{"name":"Nami","age":"20","gender":"Female","height":"5'7\"","img":"images\/nami.jpg"},{"name":"Zoro","age":"21","gender":"Male","height":"5'11\"","img":"images\/zoro.jpg"},{"name":"Usopp","age":"19","gender":"Male","height":"5'10\"","img":"images\/usopp.jpg"},{"name":"Sanji","age":"21","gender":"Male","height":"5'11\"","img":"images\/sanji.jpg"},{"name":"Chopper","age":"17","gender":"Male","height":"2'9\"","img":"images\/chopper.jpg"},{"name":"Robin","age":"30","gender":"Female","height":"6'2\"","img":"images\/robin.jpg"},{"name":"Brook","age":"90","gender":"Male","height":"9'1\"","img":"images\/brook.jpg"},{"name":"Jinbe","age":"46","gender":"Male","height":"9'11\"","img":"images\/jinbe.jpg"},{"name":"Garp","age":"78","gender":"Male","height":"9'5\"","img":"images\/garp.jpg"},{"name":"Koby","age":"18","gender":"Male","height":"5'6\"","img":"images\/koby.jpg"},{"name":"Kuzan","age":"49","gender":"Male","height":"9'10\"","img":"images\/kuzan.jpg"},{"name":"Vivi","age":"18","gender":"Female","height":"5'7\"","img":"images\/vivi.jpg"},{"name":"Kuma","age":"47","gender":"Male","height":"22'7\"","img":"images\/kuma.jpg"},{"name":"Buggy","age":"39","gender":"Male","height":"6'4\"","img":"images\/buggy.jpg"},{"name":"Mihawk","age":"43","gender":"Male","height":"6'6\"","img":"images\/mihawk.jpg"},{"name":"Crocodile","age":"46","gender":"Male","height":"8'4\"","img":"images\/crocodile.jpg"},{"name":"Law","age":"26","gender":"Male","height":"6'3\"","img":"images\/law.jpg"},{"name":"Perona","age":"25","gender":"Female","height":"5'3\"","img":"images\/perona.jpg"},{"name":"Pudding","age":"16","gender":"Female","height":"5'5\"","img":"images\/pudding.jpg"}]
+[
+	{
+		"name": "Luffy",
+		"age": "19",
+		"gender": "Male",
+		"height": "5'9\"",
+        "strawhat": true,
+		"img": "images/luffy.jpg"
+	},
+	{
+		"name": "Nami",
+		"age": "20",
+		"gender": "Female",
+		"height": "5'7\"",
+        "strawhat": true,
+		"img": "images/nami.jpg"
+	},
+	{
+		"name": "Zoro",
+		"age": "21",
+		"gender": "Male",
+		"height": "5'11\"",
+        "strawhat": true,
+		"img": "images/zoro.jpg"
+	},
+	{
+		"name": "Usopp",
+		"age": "19",
+		"gender": "Male",
+		"height": "5'10\"",
+        "strawhat": true,
+		"img": "images/usopp.jpg"
+	},
+	{
+		"name": "Sanji",
+		"age": "21",
+		"gender": "Male",
+		"height": "5'11\"",
+        "strawhat": true,
+		"img": "images/sanji.jpg"
+	},
+	{
+		"name": "Chopper",
+		"age": "17",
+		"gender": "Male",
+		"height": "2'9\"",
+        "strawhat": true,
+		"img": "images/chopper.jpg"
+	},
+	{
+		"name": "Robin",
+		"age": "30",
+		"gender": "Female",
+		"height": "6'2\"",
+        "strawhat": true,
+		"img": "images/robin.jpg"
+	},
+	{
+		"name": "Brook",
+		"age": "90",
+		"gender": "Male",
+		"height": "9'1\"",
+        "strawhat": true,
+		"img": "images/brook.jpg"
+	},
+	{
+		"name": "Jinbe",
+		"age": "46",
+		"gender": "Male",
+		"height": "9'11\"",
+        "strawhat": true,
+		"img": "images/jinbe.jpg"
+	},
+	{
+		"name": "Garp",
+		"age": "78",
+		"gender": "Male",
+		"height": "9'5\"",
+        "strawhat": false,
+		"img": "images/garp.jpg"
+	},
+	{
+		"name": "Koby",
+		"age": "18",
+		"gender": "Male",
+		"height": "5'6\"",
+        "strawhat": false,
+		"img": "images/koby.jpg"
+	},
+	{
+		"name": "Kuzan",
+		"age": "49",
+		"gender": "Male",
+		"height": "9'10\"",
+        "strawhat": false,
+		"img": "images/kuzan.jpg"
+	},
+	{
+		"name": "Vivi",
+		"age": "18",
+		"gender": "Female",
+		"height": "5'7\"",
+        "strawhat": false,
+		"img": "images/vivi.jpg"
+	},
+	{
+		"name": "Kuma",
+		"age": "47",
+		"gender": "Male",
+		"height": "22'7\"",
+        "strawhat": false,
+		"img": "images/kuma.jpg"
+	},
+	{
+		"name": "Buggy",
+		"age": "39",
+		"gender": "Male",
+		"height": "6'4\"",
+        "strawhat": false,
+		"img": "images/buggy.jpg"
+	},
+	{
+		"name": "Mihawk",
+		"age": "43",
+		"gender": "Male",
+		"height": "6'6\"",
+        "strawhat": false,
+		"img": "images/mihawk.jpg"
+	},
+	{
+		"name": "Crocodile",
+		"age": "46",
+		"gender": "Male",
+		"height": "8'4\"",
+        "strawhat": false,
+		"img": "images/crocodile.jpg"
+	},
+	{
+		"name": "Law",
+		"age": "26",
+		"gender": "Male",
+		"height": "6'3\"",
+        "strawhat": false,
+		"img": "images/law.jpg"
+	},
+	{
+		"name": "Perona",
+		"age": "25",
+		"gender": "Female",
+		"height": "5'3\"",
+        "strawhat": false,
+		"img": "images/perona.jpg"
+	},
+	{
+		"name": "Pudding",
+		"age": "16",
+		"gender": "Female",
+		"height": "5'5\"",
+        "strawhat": false,
+		"img": "images/pudding.jpg"
+	}
+]

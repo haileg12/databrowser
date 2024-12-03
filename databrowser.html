@@ -25,11 +25,15 @@
             </div>
             <div>
                 <label>Age:</label>
-                <input type="text" id="age" disabled><br><br>
+                <input type="number" id="age" disabled><br><br>
             </div>
             <div>
                 <label>Gender:</label>
-                <input type="text" id="gender" disabled><br><br>
+                <select id="gender" disabled>
+                    <option value="" selected>Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select><br><br>
             </div>
             <div>
                 <label>Height:</label>
@@ -37,7 +41,7 @@
             </div>
             <div>
                 <label>Straw Hat crew member?:</label>
-                <input type="checkbox" id="strawhat">
+                <input type="checkbox" id="strawhat" disabled>
             </div>
         </div>
 
@@ -75,12 +79,16 @@
 		<br>
         <div>
             <label>Age:</label>
-            <input type="text" id="newAge" placeholder="ex: 20">
+            <input type="number" id="newAge" placeholder="ex: 20">
         </div>
 		<br>
         <div>
             <label>Gender:</label>
-            <input type="text" id="newGender" placeholder="ex: Female">
+            <select id="newGender">
+                <option value="" selected>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
         </div>
 		<br>
         <div>
@@ -88,6 +96,11 @@
             <input type="text" id="newHeight" placeholder="ex: 5'7&quot;">
         </div>
 		<br>
+        <div>
+            <label>Straw Hat Crew Member?:</label>
+            <input type="checkbox" id="newStrawhat">
+        </div>
+        <br>
         <div>
             <!-- Image upload form -->
             <form action="uploadfile.php" method="post" enctype="multipart/form-data">
@@ -151,17 +164,18 @@
         // Function to display the current item
         function displayCurrentItem() {
             if (allData.length === 0) return;
-            
-            const item = allData[currentIndex]; // Get the current item
+    
+            const item = allData[currentIndex];
             document.getElementById('name').value = item.name;
-            document.getElementById('age').value = item.age; 
+            document.getElementById('age').value = item.age;
+            // Update this line to properly handle the gender value
             document.getElementById('gender').value = item.gender;
             document.getElementById('height').value = item.height;
-            
-            const strawHatMembers = ['Luffy', 'Zoro', 'Nami', 'Usopp', 'Sanji', 'Chopper', 'Robin', 'Brook', 'Jinbe', 'Franky'];
-            document.getElementById('strawhat').checked = strawHatMembers.includes(item.name);
-            
-            displayImage(item); // Display the image
+
+            const strawhatchecked = item.strawhat === true || item.strawhat === "1";
+            document.getElementById('strawhat').checked = strawhatchecked;
+    
+            displayImage(item);
         }
 
         // Function to display the image
@@ -192,6 +206,7 @@
                 			<th width="20%">Age</th>
                 			<th width="20%">Gender</th>
                 			<th width="20%">Height</th>
+                			<th width="20%">Strawhat</th>
                 			<th width="20%">Image</th>
                         </tr>
                     </thead>
@@ -205,6 +220,7 @@
                         <td>${item.age}</td>
                         <td>${item.gender}</td>
                         <td>${item.height}</td>
+                        <td>${item.strawhat}</td>
 						<td>${item.img}</td>
                     </tr>
                 `;
@@ -217,7 +233,7 @@
         // Function to toggle edit mode
         function toggleEdit() {
             isEditing = !isEditing;
-            const fields = ['name', 'age', 'gender', 'height'];
+            const fields = ['name', 'age', 'gender', 'height', 'strawhat'];
             fields.forEach(field => {
                 document.getElementById(field).disabled = !isEditing;
             });
@@ -239,24 +255,27 @@
                 age: document.getElementById('age').value,
                 gender: document.getElementById('gender').value,
                 height: document.getElementById('height').value,
+                // Convert checkbox to integer for database
+                strawhat: document.getElementById('strawhat').checked ? 1 : 0,
                 img: currentItem.img
             };
-            
+    
             try {
-                const response = await fetch('datafunctions.php', { // Send a POST request
+                const response = await fetch('datafunctions.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `id=${currentItem.id}&newData=${JSON.stringify(newData)}` // Send the ID and new data
+                    body: `id=${currentItem.id}&newData=${JSON.stringify(newData)}`
                 });
-                
-                const result = await response.json(); // Get the response
-                if (result.status === 'success') { // Check if the update was successful
-                    loadData(); // Reload the data
+        
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('Changes saved successfully!');
+                    loadData();
                 }
             } catch (error) {
-                console.error('Error saving changes:', error); // Log error
+                console.error('Error saving changes:', error);
             }
         }
 
@@ -299,26 +318,28 @@
                 age: document.getElementById('newAge').value,
                 gender: document.getElementById('newGender').value,
                 height: document.getElementById('newHeight').value,
+                // Convert checkbox to integer for database
+                strawhat: document.getElementById('newStrawhat').checked ? 1 : 0,
                 img: document.getElementById('newImage').value
             };
-            
+    
             try {
-                const response = await fetch('datafunctions.php', { // Send a POST request
+                const response = await fetch('datafunctions.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `newItem=${JSON.stringify(newItem)}` // Send the new item
+                    body: `newItem=${JSON.stringify(newItem)}`
                 });
-                
-                const result = await response.json(); // Get the response
+        
+                const result = await response.json();
                 if (result.status === 'success') {
                     document.getElementById('addItemForm').style.display = 'none';
-                    clearAddForm(); // Clear the add item form
-                    await loadData(); // Reload the data
+                    clearAddForm();
+                    await loadData();
                 }
             } catch (error) {
-                console.error('Error adding new item:', error); // Log error
+                console.error('Error adding new item:', error);
             }
         }
 
@@ -328,6 +349,7 @@
             document.getElementById('newAge').value = '';
             document.getElementById('newGender').value = '';
             document.getElementById('newHeight').value = '';
+            document.getElementById('newStrawhat').checked = false;
             document.getElementById('newImage').value = '';
         }
 
@@ -386,7 +408,7 @@
                 const filePath = 'images/' + fileName;
         
                 // Find the newImage input field and set its value
-                document.querySelector('newImage').value = filePath;
+                document.getElementById('newImage').value = filePath;
             }
         }
 
@@ -407,7 +429,7 @@
                 alert('File uploaded successfully!');
             })
             .catch(error => {
-                alert.error('Error uploading file:', error);
+                console.error('Error uploading file:', error);
             });
         }
 

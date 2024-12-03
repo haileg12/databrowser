@@ -10,8 +10,8 @@ function reindexDatabase() {
     $conn->query("CREATE TABLE temp_onepiece LIKE onepiece");
     
     // Copy data with new auto-incremented IDs
-    $conn->query("INSERT INTO temp_onepiece (name, age, gender, height, img)
-                 SELECT name, age, gender, height, img
+    $conn->query("INSERT INTO temp_onepiece (name, age, gender, height, strawhat, img)
+                 SELECT name, age, gender, height, strawhat, img
                  FROM onepiece
                  ORDER BY id");
     

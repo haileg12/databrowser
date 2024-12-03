@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             "age" => $row['age'],
             "gender" => $row['gender'],
             "height" => $row['height'],
+            "strawhat" => $row['strawhat'],
             "img" => $row['img']
         ];
     }
@@ -54,12 +55,13 @@ if (isset($_POST['id']) && isset($_POST['newData'])) {
     $id = (int) $_POST['id'];
     $newData = json_decode($_POST['newData'], true);
     
-    $stmt = $conn->prepare("UPDATE onepiece SET name=?, age=?, gender=?, height=?, img=? WHERE id=?");
-    $stmt->bind_param("sssssi", 
+    $stmt = $conn->prepare("UPDATE onepiece SET name=?, age=?, gender=?, height=?, strawhat=?, img=? WHERE id=?");
+    $stmt->bind_param("sissisi", 
         $newData['name'],
         $newData['age'],
         $newData['gender'],
         $newData['height'],
+        $newData['strawhat'],
         $newData['img'],
         $id
     );
@@ -111,12 +113,13 @@ if (isset($_POST['newItem'])) {
     $conn = getConnection();
     $newItem = json_decode($_POST['newItem'], true);
     
-    $stmt = $conn->prepare("INSERT INTO onepiece (name, age, gender, height, img) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", 
+    $stmt = $conn->prepare("INSERT INTO onepiece (name, age, gender, height, strawhat, img) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sissis", 
         $newItem['name'],
         $newItem['age'],
         $newItem['gender'],
         $newItem['height'],
+        $newItem['strawhat'],
         $newItem['img']
     );
     
@@ -158,6 +161,7 @@ if (isset($_GET['search'])) {
             "age" => $row['age'],
             "gender" => $row['gender'],
             "height" => $row['height'],
+            "strawhat" => $row['strawhat'],
             "img" => $row['img']
         ];
     }
