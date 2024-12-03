@@ -21,15 +21,15 @@
         <div class="form-fields">
             <div>
                 <label>Name:</label>
-                <input type="text" id="name" disabled><br><br>
+                <input type="text" id="name" disabled><br><br>   <!-- Property of type string -->
             </div>
             <div>
                 <label>Age:</label>
-                <input type="number" id="age" disabled><br><br>
+                <input type="number" id="age" disabled><br><br>  <!-- Property of type int (number) -->
             </div>
             <div>
-                <label>Gender:</label>
-                <select id="gender" disabled>
+                <label>Gender:</label>  
+                <select id="gender" disabled>                    <!-- Property representing a category -->
                     <option value="" selected>Select</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -37,11 +37,11 @@
             </div>
             <div>
                 <label>Height:</label>
-                <input type="text" id="height" disabled><br><br>
+                <input type="text" id="height" disabled><br><br> <!-- Property of type string -->
             </div>
             <div>
                 <label>Straw Hat crew member?:</label>
-                <input type="checkbox" id="strawhat" disabled>
+                <input type="checkbox" id="strawhat" disabled>   <!-- Property of type boolean -->
             </div>
         </div>
 
@@ -85,7 +85,7 @@
         <div>
             <label>Gender:</label>
             <select id="newGender">
-                <option value="" selected>Select Gender</option>
+                <option value="" disabled selected>Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
             </select>
@@ -200,13 +200,14 @@
             const container = document.getElementById('databaseTable'); 
             let html = `
                 <table class="database-table">
+                    <hr>
                     <thead>
                         <tr>
                             <th width="20%">Name</th>
                 			<th width="20%">Age</th>
                 			<th width="20%">Gender</th>
                 			<th width="20%">Height</th>
-                			<th width="20%">Strawhat</th>
+                			<th width="20%">Straw Hat Member? (0 = No, 1 = Yes)</th>
                 			<th width="20%">Image</th>
                         </tr>
                     </thead>

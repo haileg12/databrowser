@@ -89,16 +89,37 @@ if (isset($_POST['id']) && !isset($_POST['newData'])) {
     $conn = getConnection();
     $id = (int) $_POST['id'];
     
+    // First, get the image path before deleting the record
+    $stmt = $conn->prepare("SELECT img FROM onepiece WHERE id=?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $imagePath = $row['img'];
+    
+    // Delete the database record
     $stmt = $conn->prepare("DELETE FROM onepiece WHERE id=?");
     $stmt->bind_param("i", $id);
     
     if ($stmt->execute()) {
-        // After deletion, reorder the remaining records if needed
+        // Delete the image file if it exists
+        if ($imagePath && file_exists($imagePath)) {
+            if (unlink($imagePath)) {
+                $fileDeleteStatus = "Image file deleted successfully";
+            } else {
+                $fileDeleteStatus = "Failed to delete image file";
+            }
+        }
+        
+        // Reorder the remaining records
         $conn->query("SET @count = 0");
         $conn->query("UPDATE onepiece SET id = @count:= @count + 1 ORDER BY id");
         $conn->query("ALTER TABLE onepiece AUTO_INCREMENT = 1");
         
-        echo json_encode(["status" => "success", "message" => "Data deleted successfully"]);
+        echo json_encode([
+            "status" => "success", 
+            "message" => "Data deleted successfully. " . ($fileDeleteStatus ?? "No image file to delete")
+        ]);
     } else {
         echo json_encode(["status" => "error", "message" => "Delete failed: " . $conn->error]);
     }
